@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="initial-scale=1, width=device-width">
+  	
+  	<!-- CSS 파일을 동적으로 로드 -->
+  	<link rel="stylesheet" href="{{ url_for('static', filename='announcementindex.css') }}" />
+  	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" />
+</head>
+<body>
+  	
+  	<div class="mainpage">
+    		<div class="mainpage-child"></div>
+			
+			<a href="{{ url_for('main') }}" height="5" width="10" target="_self">
+				<img class="logo-2-icon" src="{{ url_for('static', filename='logo-2.png') }}" alt="Logo 2">
+			</a>
+    		
+			<div class="group4">
+				<a class="menu-item" href="{{ url_for('announcement') }}">공지사항</a>
+				<a class="menu-item" href="{{ url_for('timerecord') }}">일정/결과</a>
+				<a class="menu-item" href="{{ url_for('list') }}">선수소개</a>
+				<a class="menu-item" href="{{ url_for('index') }}">MVP투표</a>
+    		</div>
+    		
+    		<div class="div4">공지사항</div>
+    		
+    		<div class="mainpage-item"></div>
+    		
+    		<div class="rectangle-parent">
+      			<div class="group-child"></div>
+      			<div class="div5">24/08/11    12:43</div>
+      			<div class="div6">공지사항 입력.</div>
+    		</div>	
+  	</div>
+  	
+</body>
+</html>

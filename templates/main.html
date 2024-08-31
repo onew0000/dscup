@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Keania+One:wght@400&display=swap" />
+</head>
+<body>
+    <div class="mainpage">
+        <img class="kakaotalk-img" src="{{ url_for('static', filename='bgimage.png') }}" alt="Main Image">
+        <div class="rectangle1"></div>
+        <div class="rectangle2"></div>
+        <div class="group1">
+            <div class="school-name">대전대신고등학교</div>
+            <div class="school-type">자율형 사립고</div>
+            <img class="symbol-img" src="{{ url_for('static', filename='dshslogo.png') }}" alt="Symbol">
+            <div class="line1"></div>
+            <div class="close-icon">X</div>
+            <div class="ssam">SSam</div>
+            <img class="bk-act" src="{{ url_for('static', filename='actlogo.png') }}" alt="BK Act">
+        </div>
+    
+        <a href="{{ url_for('main') }}" target="_self">
+            <img class="logo2" src="{{ url_for('static', filename='logo-2.png') }}" alt="Logo 2">
+        </a>
+        <img class="logo1" src="{{ url_for('static', filename='logo-1.png') }}" alt="Logo 1">
+        
+        <div class="group4">
+            <a class="menu-item" href="{{ url_for('announcement') }}">공지사항</a>
+            <a class="menu-item" href="{{ url_for('timerecord') }}">일정/결과</a>
+            <a class="menu-item" href="{{ url_for('list') }}">선수소개</a>
+            <a class="menu-item" href="{{ url_for('index') }}">MVP</a>
+        </div>
+    </div>
+</body>
+</html>
