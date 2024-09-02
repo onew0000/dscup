@@ -4,13 +4,94 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>선수소개</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='mvpindex.css') }}">
+    <link rel="stylesheet" href="/static/mvpindex.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+        }
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 200px;
+            margin: 0 auto;
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card.leader {
+            border: 3px solid red;
+        }
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            text-align: center;
+        }
+        .popup-content h2 {
+            margin-top: 0;
+        }
+        .popup-content .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div class="mainpage">
         <header>
-            <a href="{{ url_for('main') }}">
+            <a href="{{ url_for('main') }}" target="_self">
                 <img class="logo2" src="{{ url_for('static', filename='logo-2.png') }}" alt="Logo">
             </a>
             <nav>
@@ -22,16 +103,153 @@
         </header>
         
         <main>
-            <h1>선수소개</h1>
-            
-            <div class="grade-selector">
-                <a href="{{ url_for('player', grade=52) }}" class="button">52기</a>
-            </div>
-                
-            <div class="player-card ranking">
-                <h2>랭킹</h2>
+            <div class="container">
+                <h1>선수소개</h1>
+
+                <div id="class-selection" class="card">
+                    <label for="class-select">반을 선택하세요:</label>
+                    <select id="class-select" onchange="displayClass(this.value)">
+                        <option value="">반 선택</option>
+                    </select>
+                </div>
+
+                <div id="players" class="card-grid" style="display: none;">
+                    <!-- 선수 카드들이 여기에 생성됩니다. -->
+                </div>
             </div>
         </main>
     </div>
+
+    <!-- 팝업 오버레이 -->
+    <div id="popup-overlay" class="popup-overlay" onclick="closePopup(event)">
+        <div id="popup-content" class="popup-content">
+            <button class="close-button" onclick="closePopup(event)">X</button>
+            <!-- 팝업 내용이 동적으로 채워집니다. -->
+        </div>
+    </div>
+
+    <script>
+        const playersData = {
+            class1: [],
+            class2: [],
+            class3: [],
+            class4: [],
+            class5: [],
+            class6: [],
+            class7: [],
+            class8: [],
+            class9: [],
+            class10: []
+        };
+
+        let dataLoaded = false;
+
+        function displayClass(classNumber) {
+            if (!dataLoaded) {
+                alert("데이터가 아직 로드되지 않았습니다. 잠시 후 다시 시도하세요.");
+                return;
+            }
+
+            const playersDiv = document.getElementById("players");
+            const classKey = `class${classNumber}`;
+
+            if (classNumber && playersData[classKey] && playersData[classKey].length > 0) {
+                const players = playersData[classKey];
+
+                playersDiv.innerHTML = ''; // 기존 카드 초기화
+
+                players.forEach(player => {
+                    const card = document.createElement("div");
+                    card.className = "card" + (player.leader ? " leader" : "");
+                    card.textContent = `${player.name} (${player.positions.join(', ')})`;
+                    card.onclick = () => showPopup(player, classNumber);
+                    playersDiv.appendChild(card);
+                });
+
+                playersDiv.style.display = "flex";
+            } else {
+                playersDiv.style.display = "none";
+            }
+        }
+
+        function showPopup(player, classNumber) {
+            const popupOverlay = document.getElementById("popup-overlay");
+            const popupContent = document.getElementById("popup-content");
+
+            popupContent.innerHTML = `
+                <button class="close-button" onclick="closePopup(event)">X</button>
+                <h2>${player.name}</h2>
+                <p>반: ${classNumber}반</p>
+                <p>포지션: ${player.positions.join(', ')}</p>
+                <p>주발: ${player.main_foot || '정보 없음'}</p>
+                ${player.leader ? "<p style='color: red; font-weight: bold;'>팀 주장</p>" : ""}
+            `;
+
+            popupOverlay.style.display = "flex";
+        }
+
+        function closePopup(event) {
+            if (event.target === event.currentTarget || event.target.classList.contains('close-button')) {
+                document.getElementById("popup-overlay").style.display = "none";
+            }
+        }
+
+        window.onload = function() {
+            const csvFilePath = "/static/player.csv";
+
+            Papa.parse(csvFilePath, {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    const data = results.data;
+
+                    data.forEach(player => {
+                        if (player.number && player.position) {
+                            // `number`의 처음 3자리로 반을 구분
+                            const classNumber = player.number.substring(0, 3);
+
+                            // 반 번호 변환
+                            const classMapping = {
+                                '101': '1',
+                                '102': '2',
+                                '103': '3',
+                                '104': '4',
+                                '105': '5',
+                                '106': '6',
+                                '107': '7',
+                                '108': '8',
+                                '109': '9',
+                                '110': '10'
+                            };
+
+                            const classKey = `class${classMapping[classNumber] || '1'}`;
+
+                            if (playersData[classKey]) {
+                                const positions = player.position.split(' ').map(p => p.trim());
+
+                                playersData[classKey].push({
+                                    name: player.name,
+                                    leader: player.leader === 'O',
+                                    positions: positions,
+                                    main_foot: player.main_foot
+                                });
+                            }
+                        }
+                    });
+
+                    dataLoaded = true;
+
+                    // 드롭다운 메뉴에 반을 추가
+                    const classSelect = document.getElementById("class-select");
+                    for (let i = 1; i <= 10; i++) {
+                        const option = document.createElement("option");
+                        option.value = i;
+                        option.textContent = `${i}반`;
+                        classSelect.appendChild(option);
+                    }
+                }
+            });
+        };
+    </script>
 </body>
 </html>
