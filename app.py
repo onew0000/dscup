@@ -40,7 +40,7 @@ def save_players():
 
 @app.route('/')
 def main():
-    return render_template('main.html')
+    return render_template('index.html')
 
 @app.route('/annoincement')
 def announcement():
@@ -60,7 +60,7 @@ def player():
 
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    return render_template('main.html')
 
 @app.route('/no51')
 def no51():
