@@ -60,7 +60,7 @@ def player():
 
 @app.route('/index')
 def index():
-    return render_template('main.html')
+    return render_template('mvp.html')
 
 @app.route('/no51')
 def no51():
