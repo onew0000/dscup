@@ -6,11 +6,44 @@
     <title>Document</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Keania+One:wght@400&display=swap" />
+    <link rel="stylesheet" href="/static/mvpindex.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 100;
+        }
+    </style>
 </head>
 <body>
     <div class="mainpage">
-        <img class="kakaotalk-img" src="{{ url_for('static', filename='bgimage.png') }}" alt="Main Image">
-        <div class="rectangle1"></div>
+        <header>
+            <a href="{{ url_for('main') }}" target="_self">
+                <img class="logo2" src="{{ url_for('static', filename='logo-2.png') }}" alt="Logo">
+            </a>
+            <nav>
+                <a href="{{ url_for('announcement') }}">공지사항</a>
+                <a href="{{ url_for('timerecord') }}">일정/결과</a>
+                <a href="{{ url_for('list') }}">선수소개</a>
+                <a href="{{ url_for('index') }}">MVP</a>
+            </nav>
+        </header>
+        <div class="asdf">
+            <img class="kakaotalk-img1" src="{{ url_for('static', filename='logo-1.png') }}" alt="Main Image">
+            <img class="kakaotalk-img" src="{{ url_for('static', filename='bgimage.png') }}" alt="Main Image">
+        </div>
         <div class="rectangle2"></div>
         <div class="group1">
             <div class="school-name">대전대신고등학교</div>
@@ -22,17 +55,8 @@
             <img class="bk-act" src="{{ url_for('static', filename='actlogo.png') }}" alt="BK Act">
         </div>
     
-        <a href="{{ url_for('main') }}" target="_self">
-            <img class="logo2" src="{{ url_for('static', filename='logo-2.png') }}" alt="Logo 2">
-        </a>
-        <img class="logo1" src="{{ url_for('static', filename='logo-1.png') }}" alt="Logo 1">
-        
-        <div class="group4">
-            <a class="menu-item" href="{{ url_for('announcement') }}">공지사항</a>
-            <a class="menu-item" href="{{ url_for('timerecord') }}">일정/결과</a>
-            <a class="menu-item" href="{{ url_for('list') }}">선수소개</a>
-            <a class="menu-item" href="{{ url_for('index') }}">MVP</a>
-        </div>
     </div>
+
+    
 </body>
 </html>

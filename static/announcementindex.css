@@ -31,49 +31,30 @@
     justify-content: space-between;
   }
 .div4 {
-    position: absolute;
-    top: 124px;
-    left: 621px;
+    text-align: center;
     font-size: 54px;
 }
-.mainpage-item {
-    position: absolute;
-    top: 78.5px;
-    left: -0.5px;
-    border-top: 1px solid #000;
-    box-sizing: border-box;
-    width: 1441px;
-    height: 1px;
+.text{
+    padding: 2rem;
 }
 .group-child {
-    position: absolute;
-    top: 0px;
-    left: 0px;
     border-radius: 25px;
     background-color: #d9d9d9;
     width: 1341px;
     height: 184px;
 }
 .div5 {
-    position: absolute;
-    top: 18px;
-    left: 41px;
     white-space: pre-wrap;
 }
 .div6 {
-    position: absolute;
-    top: 47px;
-    left: 117px;
     display: inline-block;
     width: 1106px;
     height: 265px;
 }
 .rectangle-parent {
-    position: absolute;
-    top: 270px;
-    left: 50px;
-    width: 1341px;
-    height: 312px;
+    margin-top: 2rem;
+        width: 1341px;
+        height: 312px;
 }
 .mainpage-inner {
     position: absolute;

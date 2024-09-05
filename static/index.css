@@ -29,10 +29,15 @@ html, body {
   object-fit: cover;
 }
 
+.kakaotalk-img1{
+  position: absolute;
+  top: 45%;
+  left: 27%;
+}
+
 .rectangle1, .rectangle2 {
   width: 100%;
   height: 76px;
-  position: absolute;
   background-color: white;
 }
 
@@ -117,7 +122,6 @@ html, body {
 }
 
 .logo2 {
-  position: absolute;
   width: 125px;
   height: 76px;
   left: 29px;

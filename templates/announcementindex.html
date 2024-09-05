@@ -6,33 +6,66 @@
   	
   	<!-- CSS 파일을 동적으로 로드 -->
   	<link rel="stylesheet" href="{{ url_for('static', filename='announcementindex.css') }}" />
+		<link rel="stylesheet" href="/static/mvpindex.css">
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" />
+
+		<style>
+			body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+        }
+		</style>
 </head>
 <body>
   	
   	<div class="mainpage">
-    		<div class="mainpage-child"></div>
-			
-			<a href="{{ url_for('main') }}" height="5" width="10" target="_self">
-				<img class="logo-2-icon" src="{{ url_for('static', filename='logo-2.png') }}" alt="Logo 2">
-			</a>
+			<header>
+				<a href="{{ url_for('main') }}" target="_self">
+						<img class="logo2" src="{{ url_for('static', filename='logo-2.png') }}" alt="Logo">
+				</a>
+				<nav>
+						<a href="{{ url_for('announcement') }}">공지사항</a>
+						<a href="{{ url_for('timerecord') }}">일정/결과</a>
+						<a href="{{ url_for('list') }}">선수소개</a>
+						<a href="{{ url_for('index') }}">MVP</a>
+				</nav>
+		</header>
+
+		<main>
+			<div class="container">
+				<div class="act52qudtls">
+
+					<div class="div4">공지사항</div>
+					
+					<div class="mainpage-item"></div>
+					
+					<div class="rectangle-parent">
+							<div class="group-child">
+								<div class="text">
+
+									<div class="div5">24/08/11    12:43</div>
+									<div class="div6">공지사항 입력.
+								</div>
+							</div>
+					</div>	
+				</div>
+
+			</div>
+		</main>
     		
-			<div class="group4">
-				<a class="menu-item" href="{{ url_for('announcement') }}">공지사항</a>
-				<a class="menu-item" href="{{ url_for('timerecord') }}">일정/결과</a>
-				<a class="menu-item" href="{{ url_for('list') }}">선수소개</a>
-				<a class="menu-item" href="{{ url_for('index') }}">MVP투표</a>
-    		</div>
-    		
-    		<div class="div4">공지사항</div>
-    		
-    		<div class="mainpage-item"></div>
-    		
-    		<div class="rectangle-parent">
-      			<div class="group-child"></div>
-      			<div class="div5">24/08/11    12:43</div>
-      			<div class="div6">공지사항 입력.</div>
-    		</div>	
   	</div>
   	
 </body>

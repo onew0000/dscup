@@ -18,19 +18,57 @@
         h1 {
             cursor: pointer;
         }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+        }
     </style>
+        <link rel="stylesheet" href="/static/mvpindex.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src="{{ url_for('static', filename='client.js') }}"></script>
 </head>
 <body>
-    <h1 onclick="goToMain()">MVP 투표</h1>
-    
-    <label for="group-selector">반 선택:</label>
-    <select id="group-selector">
-        <option value="">--반 선택--</option>
-    </select>
+    <div class="mainpage">
+        <header>
+            <a href="{{ url_for('main') }}" target="_self">
+                <img class="logo2" src="{{ url_for('static', filename='logo-2.png') }}" alt="Logo">
+            </a>
+            <nav>
+                <a href="{{ url_for('announcement') }}">공지사항</a>
+                <a href="{{ url_for('timerecord') }}">일정/결과</a>
+                <a href="{{ url_for('list') }}">선수소개</a>
+                <a href="{{ url_for('index') }}">MVP</a>
+            </nav>
+        </header>
 
-    <div class="player-list" id="player-list"></div>
+        <main>
+
+            <label for="group-selector">반 선택:</label>
+            <select id="group-selector">
+                <option value="">--반 선택--</option>
+            </select>
+        
+            <div class="player-list" id="player-list"></div>
+        
+            </div>
+        </main>
+    
 
     <script>
         function goToMain() {
