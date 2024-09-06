@@ -1,161 +1,62 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>선수 소개</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Keania+One:wght@400&display=swap" />
+    <link rel="stylesheet" href="/static/mvpindex.css">
     <style>
-        .player-list {
-            margin: 20px;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
         }
-        .player-group {
-            margin: 20px 0;
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .player {
-            margin: 10px 0;
-        }
-        
-        h1 {
-            cursor: pointer;
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 100;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    <script src="{{ url_for('static', filename='client.js') }}"></script>
 </head>
 <body>
-    <h1 onclick="goToMain()">MVP 투표</h1>
+    <div class="mainpage">
+        <header>
+            <a href="{{ url_for('main') }}" target="_self">
+                <img class="logo2" src="{{ url_for('static', filename='logo-2.png') }}" alt="Logo">
+            </a>
+            <nav>
+                <a href="{{ url_for('announcement') }}">공지사항</a>
+                <a href="{{ url_for('timerecord') }}">일정/결과</a>
+                <a href="{{ url_for('list') }}">선수소개</a>
+                <a href="{{ url_for('index') }}">MVP</a>
+            </nav>
+        </header>
+        <div class="asdf">
+            <img class="kakaotalk-img1" src="{{ url_for('static', filename='logo-1.png') }}" alt="Main Image">
+            <img class="kakaotalk-img" src="{{ url_for('static', filename='bgimage.png') }}" alt="Main Image">
+        </div>
+        <div class="rectangle2"></div>
+        <div class="group1">
+            <div class="school-name">대전대신고등학교</div>
+            <div class="school-type">자율형 사립고</div>
+            <img class="symbol-img" src="{{ url_for('static', filename='dshslogo.png') }}" alt="Symbol">
+            <div class="line1"></div>
+            <div class="close-icon">X</div>
+            <div class="ssam">SSam</div>
+            <img class="bk-act" src="{{ url_for('static', filename='actlogo.png') }}" alt="BK Act">
+        </div>
     
-    <label for="group-selector">반 선택:</label>
-    <select id="group-selector">
-        <option value="">--반 선택--</option>
-    </select>
+    </div>
 
-    <div class="player-list" id="player-list"></div>
-
-    <script>
-        function goToMain() {
-            window.location.href = "{{ url_for('main') }}";
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const groupSelector = document.getElementById('group-selector');
-            const playerListDiv = document.getElementById('player-list');
-
-            async function updateVotes() {
-                try {
-                    const response = await fetch('/players');
-                    const playersData = await response.json();
-                    
-                    document.querySelectorAll('.player').forEach(playerDiv => {
-                        const playerNumber = playerDiv.dataset.playerNumber;
-                        const votesSpan = playerDiv.querySelector('.votes');
-                        if (votesSpan && playersData[playerNumber]) {
-                            votesSpan.textContent = playersData[playerNumber].votes;
-                        }
-                    });
-                } catch (error) {
-                    console.error('Error updating votes:', error);
-                }
-            }
-
-            Papa.parse("{{ url_for('static', filename='player.csv') }}", {
-                download: true,
-                header: true,
-                complete: function(results) {
-                    initializePage(results.data);
-                },
-                error: function(error) {
-                    console.error('Error loading CSV file:', error);
-                }
-            });
-            
-
-            function initializePage(players) {
-                const playerGroups = {};
-
-                players.forEach(player => {
-                    const number = parseInt(player.number);
-                    const groupKey = Math.floor(number / 100) - 100;
-
-                    if (!playerGroups[groupKey]) {
-                        playerGroups[groupKey] = [];
-                    }
-                    playerGroups[groupKey].push(player);
-                });
-
-                Object.keys(playerGroups).forEach(groupKey => {
-                    const option = document.createElement('option');
-                    option.value = groupKey;
-                    option.textContent = `Group ${groupKey}`;
-                    groupSelector.appendChild(option);
-                });
-
-                groupSelector.addEventListener('change', function() {
-                    const selectedGroup = groupSelector.value;
-                    displayPlayers(playerGroups[selectedGroup] || []);
-                });
-
-                if (Object.keys(playerGroups).length > 0) {
-                    groupSelector.value = Object.keys(playerGroups)[0];
-                    displayPlayers(playerGroups[groupSelector.value]);
-                }
-
-                function displayPlayers(players) {
-                    playerListDiv.innerHTML = ''; 
-
-                    if (players.length === 0) {
-                        playerListDiv.innerHTML = '<p>No players in this group.</p>';
-                        return;
-                    }
-
-                    const groupDiv = document.createElement('div');
-                    groupDiv.className = 'player-group';
-                    groupDiv.innerHTML = `<h2>Group ${groupSelector.value}</h2>`;
-
-                    players.forEach(player => {
-                        const playerDiv = document.createElement('div');
-                        playerDiv.className = 'player';
-                        playerDiv.dataset.playerNumber = player.number;
-                        playerDiv.innerHTML = `
-                            <strong>Name:</strong> ${player.name} <br>
-                            <strong>Position:</strong> ${player.position} <br>
-                            <strong>Leader:</strong> ${player.leader} <br>
-                            <strong>Height:</strong> ${player.height} cm <br>
-                            <strong>Weight:</strong> ${player.weight} kg <br>
-                            <strong>Main Foot:</strong> ${player.main_foot} <br>
-                            <strong>Votes:</strong> <span class="votes">0</span> <br>
-                            <button onclick="vote('${player.number}')">Vote</button>
-                        `;
-                        groupDiv.appendChild(playerDiv);
-                    });
-
-                    playerListDiv.appendChild(groupDiv);
-                    updateVotes();  
-                }
-            }
-
-            window.vote = async function(playerNumber) {
-                try {
-                    const response = await fetch('/vote', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            player_number: playerNumber,
-                            device_id: localStorage.getItem('deviceId')
-                        })
-                    });
-                    const result = await response.json();
-                    alert(result.message || result.error);
-                    updateVotes();  
-                } catch (error) {
-                    console.error('Error voting:', error);
-                }
-            }
-
-            setInterval(updateVotes, 10000);
-        });
-    </script>
+    
 </body>
 </html>
